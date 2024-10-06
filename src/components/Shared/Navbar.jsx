@@ -35,7 +35,7 @@ const Navbar = () => {
       {/* <nav className="bg-red-600 shadow-lg sticky top-0 z-50"> */}
       <nav
         className={`
-        bg-red-600 shadow-lg fixed top-0 left-0 w-full z-50
+        bg-red-600 border-b-1 border-slate-100 fixed top-0 left-0 w-full z-50
         transition-transform duration-300 ease-in-out
         ${visible ? "translate-y-0" : "-translate-y-full"}
       `}
