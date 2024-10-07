@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import hero_image from "../../../public/blood_donation.jpg";
 
 const Hero = () => {
@@ -10,8 +11,12 @@ const Hero = () => {
       />
       <div className=" absolute bottom-24 lg:bottom-80 left-10 lg:left-28">
         <button className=" text-sm  lg:font-semibold px-2 lg:px-6 lg:py-3 rounded-sm lg:rounded-lg bg-red-600 hover:bg-red-700 text-white transition duration-300">
-          <span className="hidden lg:block">Register as Donor</span>
-          <span className="block lg:hidden">Register</span>
+          <Link to="./signup" className="hidden lg:block">
+            Register as Donor
+          </Link>
+          <Link to="./signup" className="block lg:hidden">
+            Register
+          </Link>
         </button>
       </div>
     </div>
