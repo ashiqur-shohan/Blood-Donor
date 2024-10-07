@@ -46,7 +46,7 @@ const Navbar = () => {
               <NavLink to="./" className="flex gap-2 items-center py-4 px-2">
                 <img src={logo2} className="h-8 w-8" alt="" />
                 <span className="font-semibold text-white text-xl lg:text-2xl">
-                  D O N O R
+                  UniBlood
                 </span>
               </NavLink>
             </div>

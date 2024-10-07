@@ -1,6 +1,7 @@
 
 // import { ArrowRightIcon } from "@heroicons/react/24/solid";
-import hero from "../../../public/hero_image.jfif"
+// import hero from "../../../public/hero_image.jfif"
+import hero2 from "../../../public/blood_donation.jpg";
 // const HeroSection = () => {
 //   return (
 //     <div className="relative bg-red-600 overflow-hidden">
@@ -60,9 +61,9 @@ import hero from "../../../public/hero_image.jfif"
 
 
 
-const HeroSection = () => {
+const Hero1 = () => {
   return (
-    <div className="bg-[#D2F0F2]">
+    <div className="bg-[#E4E4E4]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           {/* Left side content */}
@@ -87,7 +88,7 @@ const HeroSection = () => {
           {/* Right side image */}
           <div className="mt-10 md:mt-0">
             <img
-              src={hero}
+              src={hero2}
               alt="Blood Donation"
               className="w-full h-auto rounded-lg "
             />
@@ -98,4 +99,4 @@ const HeroSection = () => {
   );
 };
 
-export default HeroSection;
+export default Hero1;

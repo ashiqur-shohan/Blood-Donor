@@ -6,11 +6,11 @@ import NewUser from "../components/Home/NewUser";
 const Home = () => {
   return (
     <div>
-      <Hero1/>
+      <Hero/>
+      {/* <Hero1/> */}
       <DonorStatistics/>
       <NewUser/>
       <Awareness/>
-      <Hero/>
     </div>
   );
 };
