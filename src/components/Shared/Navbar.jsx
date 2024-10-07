@@ -1,10 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
 // import logo from "../../../public/logo bg-removed.png"
 import logo2 from "../../../public/logo2-removebg-preview.png";
 
 const Navbar = () => {
+
+  // navbar hide when click outside navbar div
+  const navRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   // navbar hide when scroll Down and sticky when scroll up
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
@@ -24,6 +40,11 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [prevScrollPos]);
 
+  //close menu when click on navbar
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
   // mobile hamburger open close
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => {
@@ -32,8 +53,8 @@ const Navbar = () => {
 
   return (
     <>
-      {/* <nav className="bg-red-600 shadow-lg sticky top-0 z-50"> */}
       <nav
+        ref={navRef}
         className={`
         bg-red-600 border-b-1 border-slate-100 fixed top-0 left-0 w-full z-50
         transition-transform duration-300 ease-in-out
@@ -43,7 +64,11 @@ const Navbar = () => {
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex justify-between">
             <div className="flex">
-              <NavLink to="./" className="flex gap-2 items-center py-4 px-2">
+              <NavLink
+                to="./"
+                className="flex gap-2 items-center py-4 px-2"
+                onClick={closeMenu}
+              >
                 <img src={logo2} className="h-8 w-8" alt="" />
                 <span className="font-semibold text-white text-xl lg:text-2xl">
                   UniBlood
@@ -91,6 +116,7 @@ const Navbar = () => {
               <NavLink
                 to="donor-list"
                 className="py-4 px-2 text-white hover:text-red-200 transition duration-300 mr-4"
+                onClick={closeMenu}
               >
                 Find Donor
               </NavLink>
@@ -128,24 +154,28 @@ const Navbar = () => {
           <NavLink
             to="./"
             className="block py-2 px-4 text-sm hover:bg-red-700 text-white"
+            onClick={closeMenu}
           >
             Home
           </NavLink>
           <NavLink
             to="./about"
             className="block py-2 px-4 text-sm hover:bg-red-700 text-white"
+            onClick={closeMenu}
           >
             About
           </NavLink>
           <NavLink
             to="./signup"
             className="block py-2 px-4 text-sm hover:bg-red-700 text-white"
+            onClick={closeMenu}
           >
             Sign Up
           </NavLink>
           <NavLink
             to="./login"
             className="block py-2 px-4 text-sm hover:bg-red-700 text-white"
+            onClick={closeMenu}
           >
             Login
           </NavLink>

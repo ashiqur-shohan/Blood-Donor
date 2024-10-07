@@ -1,7 +1,7 @@
 import Awareness from "../components/Home/Awareness";
 import DonorStatistics from "../components/Home/DonorStatistics";
 import Hero from "../components/Home/Hero";
-import Hero1 from "../components/Home/Hero1";
+// import Hero1 from "../components/Home/Hero1";
 import NewUser from "../components/Home/NewUser";
 const Home = () => {
   return (
