@@ -1,33 +1,33 @@
-import { PlusIcon, MinusIcon } from "@heroicons/react/24/solid";
-import { useState } from "react";
-const FAQItem = ({ question, answer }) => {
-  const [isOpen, setIsOpen] = useState(false);
+// import { PlusIcon, MinusIcon } from "@heroicons/react/24/solid";
+// import { useState } from "react";
+// const FAQItem = ({ question, answer }) => {
+//   const [isOpen, setIsOpen] = useState(false);
 
-  return (
-    <div className="border-b border-gray-200">
-      <button
-        className="flex justify-between items-center w-full py-5 text-left"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <span className="text-lg font-semibold text-gray-800">{question}</span>
-        {isOpen ? (
-          <MinusIcon className="h-6 w-6 text-red-600 transition-transform duration-300 ease-in-out" />
-        ) : (
-          <PlusIcon className="h-6 w-6 text-red-600 transition-transform duration-300 ease-in-out" />
-        )}
-      </button>
-      <div
-        className={`overflow-hidden transition-all duration-300 ease-in-out ${
-          isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-        }`}
-      >
-        <div className="pb-5 text-gray-600">
-          <p>{answer}</p>
-        </div>
-      </div>
-    </div>
-  );
-};
+//   return (
+//     <div className="border-b border-gray-200">
+//       <button
+//         className="flex justify-between items-center w-full py-5 text-left"
+//         onClick={() => setIsOpen(!isOpen)}
+//       >
+//         <span className="text-lg font-semibold text-gray-800">{question}</span>
+//         {isOpen ? (
+//           <MinusIcon className="h-6 w-6 text-red-600 transition-transform duration-300 ease-in-out" />
+//         ) : (
+//           <PlusIcon className="h-6 w-6 text-red-600 transition-transform duration-300 ease-in-out" />
+//         )}
+//       </button>
+//       <div
+//         className={`overflow-hidden transition-all duration-300 ease-in-out ${
+//           isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+//         }`}
+//       >
+//         <div className="pb-5 text-gray-600">
+//           <p>{answer}</p>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
 
 
 const FAQ = () => {
@@ -60,8 +60,8 @@ const FAQ = () => {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-        <h1 className="text-center text-4xl mb-8">FAQ</h1>
+    <div className="max-w-6xl mx-auto px-4 mb-12">
+        <h1 className="text-center font-bold text-red-600 text-3xl mb-8">FAQ</h1>
       {faqData.map((data, index) => (
         <div key={index} className="collapse collapse-arrow bg-base-200 mb-2">
           <input type="radio" name="my-accordion-2" defaultChecked />

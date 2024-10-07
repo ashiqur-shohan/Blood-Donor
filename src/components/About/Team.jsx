@@ -47,7 +47,7 @@ const Team = () => {
     <div>
       <section className="py-12 bg-gray-100">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">Our Team</h2>
+          <h2 className="text-3xl text-red-600 font-bold text-center mb-8">Our Team</h2>
           <p className="text-center mb-12 max-w-2xl mx-auto">
             We are three passionate university students committed to making a
             difference in our community through this blood donor platform.
