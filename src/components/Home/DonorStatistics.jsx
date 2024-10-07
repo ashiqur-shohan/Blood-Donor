@@ -1,12 +1,5 @@
 import { Droplet,UserCheck, Users, UserPlus } from "lucide-react";
 
-import {
-  ArrowRightIcon,
-  UserIcon,
-  
-  ClockIcon,
-  HeartIcon,
-} from "@heroicons/react/24/solid";
 const DonorStatistics = () => {
   return (
     // <div className="bg-slate-100 py-8 lg:py-8">
@@ -85,28 +78,28 @@ const DonorStatistics = () => {
             <div className="relative">
               <dt>
                 <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-red-500 text-white">
-                  <ClockIcon className="h-6 w-6" aria-hidden="true" />
+                  <UserPlus className="h-6 w-6" aria-hidden="true" />
                 </div>
                 <p className="ml-16 text-lg leading-6 font-medium text-gray-900">
-                  24/7 Availability
+                  100 New Donors This Month
                 </p>
               </dt>
               <dd className="mt-2 ml-16 text-base text-gray-500">
-                Round-the-clock support for urgent blood needs.
+                A growing number of life-savers have joined us this month
               </dd>
             </div>
 
             <div className="relative">
               <dt>
                 <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-red-500 text-white">
-                  <HeartIcon className="h-6 w-6" aria-hidden="true" />
+                  <UserCheck className="h-6 w-6" aria-hidden="true" />
                 </div>
                 <p className="ml-16 text-lg leading-6 font-medium text-gray-900">
-                  45,000+ Lives Saved
+                  5,000+ Active Donors
                 </p>
               </dt>
               <dd className="mt-2 ml-16 text-base text-gray-500">
-                Estimated number of lives impacted by our donors.
+                Dedicated donors are ready to help when it matters most.
               </dd>
             </div>
           </dl>
