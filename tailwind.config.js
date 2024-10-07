@@ -1,5 +1,5 @@
 import daisyui from "daisyui";
-const { nextui } = require("@nextui-org/react");
+
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -15,7 +15,6 @@ export default {
       colors: {
         primary: "#ce1212",
         secondary: "#004225",
-        gray: "#555555",
       },
       fontFamily: {
         manrope: "'Manrope', sans-serif",
@@ -26,7 +25,7 @@ export default {
     },
   },
   darkMode: "class",
-  plugins: [daisyui,nextui()],
+  plugins: [daisyui,],
   daisyui: {
     themes: ["light"],
   },
