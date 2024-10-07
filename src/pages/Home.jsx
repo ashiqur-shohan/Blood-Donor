@@ -3,6 +3,8 @@ import DonorStatistics from "../components/Home/DonorStatistics";
 import Hero from "../components/Home/Hero";
 // import Hero1 from "../components/Home/Hero1";
 import NewUser from "../components/Home/NewUser";
+import CallToAction from "../components/Home/CallToAction";
+
 const Home = () => {
   return (
     <div>
@@ -11,6 +13,7 @@ const Home = () => {
       <DonorStatistics/>
       <NewUser/>
       <Awareness/>
+      <CallToAction/>
     </div>
   );
 };
