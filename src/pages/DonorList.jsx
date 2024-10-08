@@ -1,14 +1,15 @@
 import { useState } from "react";
-import {
-  XMarkIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/24/outline";
+
+import FilterSection from "../components/DonorList/Filter";
 
 const DonorList = () => {
   const [filters, setFilters] = useState({
+    search: "",
     bloodType: "",
-    location: "",
-    availability: "",
+    department: "",
+    gender: "",
+    district: "",
+    studentStatus: "",
   });
 
   const [donors, setDonors] = useState([
@@ -54,32 +55,19 @@ const DonorList = () => {
     },
   ]);
 
-  const bloodTypes = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
-  const availabilityOptions = [
-    "Available Now",
-    "Available This Week",
-    "Available This Month",
-  ];
-
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: value,
-    }));
+  const applyFilters = () => {
+    // Implement filter logic here
+    console.log("Applying filters:", filters);
   };
 
-  const handleFilterSubmit = (e) => {
-    e.preventDefault();
-    // In a real application, you would apply the filters to fetch donors from an API
-    console.log("Filters applied:", filters);
-  };
-
-  const handleFilterReset = () => {
+  const resetFilters = () => {
     setFilters({
+      search: "",
       bloodType: "",
-      location: "",
-      availability: "",
+      department: "",
+      gender: "",
+      district: "",
+      studentStatus: "",
     });
   };
 
@@ -91,97 +79,13 @@ const DonorList = () => {
         </h1>
 
         {/* Filter Section */}
-        <div className="bg-white shadow-md rounded-lg p-4 mb-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
-            Filter Donors
-          </h2>
-          <form onSubmit={handleFilterSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label
-                  htmlFor="bloodType"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Blood Type
-                </label>
-                <select
-                  id="bloodType"
-                  name="bloodType"
-                  value={filters.bloodType}
-                  onChange={handleFilterChange}
-                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"
-                >
-                  <option value="">Any</option>
-                  {bloodTypes.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
-              </div>
 
-              <div>
-                <label
-                  htmlFor="location"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Location
-                </label>
-                <input
-                  type="text"
-                  id="location"
-                  name="location"
-                  value={filters.location}
-                  onChange={handleFilterChange}
-                  placeholder="Enter city or zip code"
-                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="availability"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Availability
-                </label>
-                <select
-                  id="availability"
-                  name="availability"
-                  value={filters.availability}
-                  onChange={handleFilterChange}
-                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"
-                >
-                  <option value="">Any</option>
-                  {availabilityOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div className="flex justify-between pt-4">
-              <button
-                type="button"
-                onClick={handleFilterReset}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-              >
-                <XMarkIcon className="h-5 w-5 mr-2 text-gray-400" />
-                Reset
-              </button>
-              <button
-                type="submit"
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-              >
-                <MagnifyingGlassIcon className="h-5 w-5 mr-2" />
-                Apply Filters
-              </button>
-            </div>
-          </form>
-        </div>
-
+        <FilterSection
+          filters={filters}
+          setFilters={setFilters}
+          applyFilters={applyFilters}
+          resetFilters={resetFilters}
+        />
         {/* Donor Listings */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {donors.map((donor) => (
