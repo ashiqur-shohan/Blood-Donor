@@ -1,12 +1,20 @@
 import { useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { departments } from "../constants/departments";
+import Select from "react-select";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    mobile: "",
+    department: "",
+    student_id: "",
+    gender: "",
+    district: "",
+    blood_group: "",
+    studentship_status: "",
     password: "",
-    confirmPassword: "",
     bloodType: "",
   });
 
@@ -20,6 +28,12 @@ const Signup = () => {
       [name]: value,
     }));
   };
+
+  const options = departments.map((dept) => ({
+    label: dept.name,
+    value: dept.code,
+  }));
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,6 +53,7 @@ const Signup = () => {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
+            {/* name */}
             <div>
               <label
                 htmlFor="name"
@@ -59,7 +74,7 @@ const Signup = () => {
                 />
               </div>
             </div>
-
+            {/* email */}
             <div>
               <label
                 htmlFor="email"
@@ -81,6 +96,57 @@ const Signup = () => {
               </div>
             </div>
 
+            {/* mobile */}
+            <div>
+              <label
+                htmlFor="mobile"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Mobile
+              </label>
+              <div className="mt-1">
+                <input
+                  id="mobile"
+                  name="mobile"
+                  type="tel"
+                  autoComplete="mobile"
+                  required
+                  value={formData.mobile}
+                  onChange={handleChange}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                />
+              </div>
+            </div>
+
+            {/* department */}
+            <div>
+              <label
+                htmlFor="department"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Department
+              </label>
+              <div className="mt-1">
+                <Select
+                  id="department"
+                  name="department"
+                  options={options}
+                  value={options.find(
+                    (option) => option.value === formData.department
+                  )}
+                  onChange={(selectedOption) =>
+                    setFormData({
+                      ...formData,
+                      department: selectedOption.value,
+                    })
+                  }
+                  classNamePrefix="react-select"
+                  isSearchable
+                />
+              </div>
+            </div>
+
+            {/* password */}
             <div>
               <label
                 htmlFor="password"
@@ -113,6 +179,7 @@ const Signup = () => {
               </div>
             </div>
 
+            {/* confirm password */}
             <div>
               <label
                 htmlFor="confirmPassword"
@@ -145,6 +212,7 @@ const Signup = () => {
               </div>
             </div>
 
+            {/* blood type */}
             <div>
               <label
                 htmlFor="bloodType"
