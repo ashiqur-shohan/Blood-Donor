@@ -1,11 +1,44 @@
+import {
+  FaUser,
+  FaMobileAlt,
+  FaIdCard,
+  FaVenusMars,
+  FaMapMarkerAlt,
+  FaTint,
+  FaLock,
+} from "react-icons/fa";
+import { MdEmail, MdSchool, MdEvent } from "react-icons/md";
+
 import { useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { departments } from "../constants/departments";
+import { districts } from "../constants/district";
+import { sessions } from "../constants/session";
 import Select from "react-select";
+
+const InputField = ({ label, name, type, icon: Icon, ...props }) => (
+  <div className={name === "full_name" ? "lg:col-span-2" : ""}>
+    <label htmlFor={name} className="block text-sm font-medium text-gray-700">
+      {label}
+    </label>
+    <div className="mt-1 relative rounded-md shadow-sm">
+      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <Icon className="h-5 w-5 text-gray-500" aria-hidden="true" />
+      </div>
+      <input
+        id={name}
+        name={name}
+        type={type}
+        className="appearance-none block w-full pl-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"
+        {...props}
+      />
+    </div>
+  </div>
+);
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    full_name: "",
     email: "",
     mobile: "",
     department: "",
@@ -13,9 +46,9 @@ const Signup = () => {
     gender: "",
     district: "",
     blood_group: "",
-    studentship_status: "",
+    session: "",
     password: "",
-    bloodType: "",
+    confirmPassword: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -29,17 +62,46 @@ const Signup = () => {
     }));
   };
 
-  const options = departments.map((dept) => ({
+
+  const department_options = departments.map((dept) => ({
     label: dept.name,
     value: dept.code,
   }));
 
+  const session_options = sessions.map((session) => ({
+    label: session,
+    value: session,
+  }));
+
+  const district_options = districts.map((dist) => ({
+    label: dist
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" "),
+    value: dist,
+  }));
+
+  const gender_options = [
+    {value:'male',label:'Male'},
+    {value:'female',label:'Female'},
+    {value:'other',label:'Other'},
+  ]
+
+  const blood_options = [
+    { value: "a+", label: "A+" },
+    { value: "a-", label: "A-" },
+    { value: "b+", label: "B+" },
+    { value: "b-", label: "B-" },
+    { value: "ab+", label: "AB+" },
+    { value: "ab-", label: "AB-" },
+    { value: "o+", label: "O+" },
+    { value: "o-", label: "O-" },
+  ];
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically send the signup data to your backend
     console.log("Signup data:", formData);
-    // Add your signup logic here
   };
 
   return (
@@ -50,198 +112,347 @@ const Signup = () => {
         </h2>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-2xl  ">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
-            {/* name */}
-            <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Full Name
-              </label>
-              <div className="mt-1">
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  autoComplete="name"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"
-                />
-              </div>
-            </div>
-            {/* email */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email address
-              </label>
-              <div className="mt-1">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"
-                />
-              </div>
-            </div>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              {/* Full name */}
+              <InputField
+                label="Full Name"
+                name="full_name"
+                type="text"
+                icon={FaUser}
+                required
+                value={formData.full_name}
+                onChange={handleChange}
+              />
 
-            {/* mobile */}
-            <div>
-              <label
-                htmlFor="mobile"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Mobile
-              </label>
-              <div className="mt-1">
-                <input
-                  id="mobile"
-                  name="mobile"
-                  type="tel"
-                  autoComplete="mobile"
-                  required
-                  value={formData.mobile}
-                  onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"
-                />
-              </div>
-            </div>
+              {/* Email */}
+              <InputField
+                label="Email address"
+                name="email"
+                type="email"
+                icon={MdEmail}
+                required
+                value={formData.email}
+                onChange={handleChange}
+              />
 
-            {/* department */}
-            <div>
-              <label
-                htmlFor="department"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Department
-              </label>
-              <div className="mt-1">
-                <Select
-                  id="department"
-                  name="department"
-                  options={options}
-                  value={options.find(
-                    (option) => option.value === formData.department
-                  )}
-                  onChange={(selectedOption) =>
-                    setFormData({
-                      ...formData,
-                      department: selectedOption.value,
-                    })
-                  }
-                  classNamePrefix="react-select"
-                  isSearchable
-                />
-              </div>
-            </div>
+              {/* mobile */}
+              <InputField
+                label="Mobile"
+                name="mobile"
+                type="tel"
+                icon={FaMobileAlt}
+                required
+                value={formData.mobile}
+                onChange={handleChange}
+              />
 
-            {/* password */}
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <div className="mt-1 relative">
-                <input
-                  id="password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  autoComplete="new-password"
-                  required
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  onClick={() => setShowPassword(!showPassword)}
+              {/* department */}
+              <div>
+                <label
+                  htmlFor="department"
+                  className="block text-sm font-medium text-gray-700"
                 >
-                  {showPassword ? (
-                    <EyeSlashIcon className="h-5 w-5 text-gray-400" />
-                  ) : (
-                    <EyeIcon className="h-5 w-5 text-gray-400" />
-                  )}
-                </button>
+                  Department
+                </label>
+                <div className="relative mt-1">
+                  <MdSchool
+                    className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500 z-10"
+                    size={20}
+                  />
+                  <Select
+                    options={department_options}
+                    value={department_options.find(
+                      (option) => option.value === formData.department
+                    )}
+                    onChange={(selectedOption) =>
+                      setFormData({
+                        ...formData,
+                        department: selectedOption ? selectedOption.value : "",
+                      })
+                    }
+                    classNamePrefix="react-select"
+                    isSearchable
+                    styles={{
+                      control: (provided) => ({
+                        ...provided,
+                        paddingLeft: "2rem",
+                      }),
+                      menu: (provided) => ({
+                        ...provided,
+                        zIndex: 20,
+                      }),
+                    }}
+                    isClearable
+                    className="w-full shadow-sm"
+                  />
+                </div>
               </div>
-            </div>
 
-            {/* confirm password */}
-            <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Confirm Password
-              </label>
-              <div className="mt-1 relative">
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
-                  autoComplete="new-password"
-                  required
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              {/* Student Id */}
+              <InputField
+                label="Student Id"
+                name="student_id"
+                type="text"
+                icon={FaIdCard}
+                required
+                value={formData.student_id}
+                onChange={handleChange}
+              />
+
+              {/* Gender */}
+              <div>
+                <label
+                  htmlFor="gender"
+                  className="block text-sm font-medium text-gray-700"
                 >
-                  {showConfirmPassword ? (
-                    <EyeSlashIcon className="h-5 w-5 text-gray-400" />
-                  ) : (
-                    <EyeIcon className="h-5 w-5 text-gray-400" />
-                  )}
-                </button>
+                  Gender
+                </label>
+                <div className="mt-1 relative">
+                  <FaVenusMars
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 z-10 pointer-events-none"
+                    size={20}
+                  />
+                  <Select
+                    options={gender_options}
+                    value={gender_options.find(
+                      (option) => option.value === formData.gender
+                    )}
+                    onChange={(selectedOption) =>
+                      setFormData({
+                        ...formData,
+                        // gender: selectedOption.value,
+                        gender: selectedOption ? selectedOption.value : "",
+                      })
+                    }
+                    classNamePrefix="react-select"
+                    isSearchable
+                    styles={{
+                      control: (provided) => ({
+                        ...provided,
+                        paddingLeft: "2rem",
+                      }),
+                      menu: (provided) => ({
+                        ...provided,
+                        zIndex: 20,
+                      }),
+                    }}
+                    className="w-full shadow-sm"
+                    isClearable
+                    placeholder="Select Gender..."
+                  />
+                </div>
               </div>
-            </div>
 
-            {/* blood type */}
-            <div>
-              <label
-                htmlFor="bloodType"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Blood Type
-              </label>
-              <div className="mt-1">
-                <select
-                  id="bloodType"
-                  name="bloodType"
-                  required
-                  value={formData.bloodType}
-                  onChange={handleChange}
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"
+              {/* District */}
+              <div>
+                <label
+                  htmlFor="district"
+                  className="block text-sm font-medium text-gray-700"
                 >
-                  <option value="">Select Blood Type</option>
-                  <option value="A+">A+</option>
-                  <option value="A-">A-</option>
-                  <option value="B+">B+</option>
-                  <option value="B-">B-</option>
-                  <option value="AB+">AB+</option>
-                  <option value="AB-">AB-</option>
-                  <option value="O+">O+</option>
-                  <option value="O-">O-</option>
-                </select>
+                  District
+                </label>
+                <div className="mt-1 relative">
+                  <FaMapMarkerAlt
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 z-10 pointer-events-none"
+                    size={20}
+                  />
+                  <Select
+                    id="district"
+                    name="district"
+                    options={district_options}
+                    value={district_options.find(
+                      (option) => option.value === formData.district
+                    )}
+                    onChange={(selectedOption) =>
+                      setFormData({
+                        ...formData,
+                        district: selectedOption ? selectedOption.value : "",
+                      })
+                    }
+                    styles={{
+                      control: (provided) => ({
+                        ...provided,
+                        paddingLeft: "2rem",
+                      }),
+                      menu: (provided) => ({
+                        ...provided,
+                        zIndex: 20,
+                      }),
+                    }}
+                    className="w-full shadow-sm"
+                    classNamePrefix="react-select"
+                    isClearable
+                    isSearchable
+                  />
+                </div>
+              </div>
+
+              {/* Blood Type */}
+              <div>
+                <label
+                  htmlFor="blood_group"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Blood Group
+                </label>
+                <div className="mt-1 relative ">
+                  <FaTint
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 z-10 pointer-events-none"
+                    size={18}
+                  />
+
+                  <Select
+                    id="blood_group"
+                    name="blood_group"
+                    options={blood_options}
+                    value={blood_options.find(
+                      (option) => option.value === formData.blood_group
+                    )}
+                    onChange={(selectedOption) =>
+                      setFormData({
+                        ...formData,
+                        blood_group: selectedOption ? selectedOption.value : "",
+                      })
+                    }
+                    styles={{
+                      control: (provided) => ({
+                        ...provided,
+                        paddingLeft: "2rem",
+                      }),
+                    }}
+                    className="w-full shadow-sm"
+                    classNamePrefix="react-select"
+                    isSearchable
+                    isClearable
+                  />
+                </div>
+              </div>
+
+              {/* session */}
+              <div>
+                <label
+                  htmlFor="session"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Session
+                </label>
+                <div className="relative mt-1">
+                  <MdEvent
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 z-10 pointer-events-none"
+                    size={18}
+                  />
+                  <Select
+                    id="session"
+                    name="session"
+                    options={session_options}
+                    value={session_options.find(
+                      (option) => option.value === formData.session
+                    )}
+                    onChange={(selectedOption) =>
+                      setFormData({
+                        ...formData,
+                        session: selectedOption ? selectedOption.value : "",
+                      })
+                    }
+                    styles={{
+                      control: (provided) => ({
+                        ...provided,
+                        paddingLeft: "2rem",
+                      }),
+                      menu: (provided) => ({
+                        ...provided,
+                        zIndex: 20,
+                      }),
+                    }}
+                    className="w-full shadow-sm"
+                    classNamePrefix="react-select"
+                    isClearable
+                    isSearchable
+                  />
+                </div>
+              </div>
+
+              {/* password */}
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Password
+                </label>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <FaLock
+                      className="h-5 w-5 text-gray-500"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="new-password"
+                    required
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="appearance-none block w-full pl-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeSlashIcon className="h-5 w-5 text-gray-400" />
+                    ) : (
+                      <EyeIcon className="h-5 w-5 text-gray-400" />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Confirm Password */}
+              <div>
+                <label
+                  htmlFor="confirmPassword"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Confirm Password
+                </label>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <FaLock
+                      className="h-5 w-5 text-gray-500"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    autoComplete="new-password"
+                    required
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    className="appearance-none block w-full pl-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? (
+                      <EyeSlashIcon className="h-5 w-5 text-gray-400" />
+                    ) : (
+                      <EyeIcon className="h-5 w-5 text-gray-400" />
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
-
             <div>
               <button
                 type="submit"
