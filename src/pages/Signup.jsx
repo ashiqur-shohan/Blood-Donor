@@ -17,7 +17,7 @@ import { sessions } from "../constants/session";
 import Select from "react-select";
 
 const InputField = ({ label, name, type, icon: Icon, ...props }) => (
-  <div className={name === "full_name" ? "lg:col-span-2" : ""}>
+  <div className={name === "full_name" ? "md:col-span-2" : ""}>
     <label htmlFor={name} className="block text-sm font-medium text-gray-700">
       {label}
     </label>
@@ -54,6 +54,7 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  // to handle the changes of input field
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -107,12 +108,12 @@ const Signup = () => {
   return (
     <div className="min-h-screen bg-red-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Create your account
+        <h2 className="mt-6 text-center text-2xl lg:text-3xl font-extrabold text-gray-900">
+          Registered As <span className="text-red-600" > "HERO" </span>
         </h2>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-2xl  ">
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-4xl  ">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -123,6 +124,7 @@ const Signup = () => {
                 type="text"
                 icon={FaUser}
                 required
+                autoComplete=""
                 value={formData.full_name}
                 onChange={handleChange}
               />
@@ -195,7 +197,7 @@ const Signup = () => {
               <InputField
                 label="Student Id"
                 name="student_id"
-                type="text"
+                type="numeric"
                 icon={FaIdCard}
                 required
                 value={formData.student_id}
