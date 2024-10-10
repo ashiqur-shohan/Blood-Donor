@@ -2,7 +2,8 @@ import { useState, useEffect,useRef } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
 // import logo from "../../../public/logo bg-removed.png"
-import logo2 from "../../../public/logo2-removebg-preview.png";
+// import logo2 from "../../../public/logo2-removebg-preview.png";
+import logo3 from "../../../public/logo3.png";
 
 const Navbar = () => {
 
@@ -69,7 +70,7 @@ const Navbar = () => {
                 className="flex gap-2 items-center py-4 px-2"
                 onClick={closeMenu}
               >
-                <img src={logo2} className="h-8 w-8" alt="" />
+                <img src={logo3} className="h-8 w-8" alt="" />
                 <span className="font-semibold text-white text-xl lg:text-2xl">
                   UniBlood
                 </span>
