@@ -1,3 +1,8 @@
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import {
   FaUser,
   FaMobileAlt,
@@ -37,6 +42,9 @@ const InputField = ({ label, name, type, icon: Icon, ...props }) => (
 );
 
 const Signup = () => {
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
@@ -46,9 +54,9 @@ const Signup = () => {
     gender: "",
     district: "",
     blood_group: "",
-    session: "",
-    password: "",
-    confirmPassword: "",
+    academic_year: "",
+    // password: "",
+    // confirmPassword: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -57,12 +65,17 @@ const Signup = () => {
   // to handle the changes of input field
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    if (name === "password") {
+      setPassword(value);
+    } else if (name === "confirmPassword") {
+      setConfirmPassword(value);
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
-
 
   const department_options = departments.map((dept) => ({
     label: dept.name,
@@ -83,10 +96,10 @@ const Signup = () => {
   }));
 
   const gender_options = [
-    {value:'male',label:'Male'},
-    {value:'female',label:'Female'},
-    {value:'other',label:'Other'},
-  ]
+    { value: "male", label: "Male" },
+    { value: "female", label: "Female" },
+    { value: "other", label: "Other" },
+  ];
 
   const blood_options = [
     { value: "a+", label: "A+" },
@@ -99,17 +112,61 @@ const Signup = () => {
     { value: "o-", label: "O-" },
   ];
 
-
-  const handleSubmit = (e) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Signup data:", formData);
+
+    if (!/^\d{11}$/.test(formData.mobile)) {
+      toast.error("Mobile number must be 11 digits");
+      return;
+    }
+
+    if (!/^\d+$/.test(formData.student_id)) {
+      toast.error("Student ID must contain only numeric values");
+      return;
+    }
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      toast.error("pass not match");
+      return; // Exit the function early
+    }
+
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/v1/users/create_user_open",
+        { ...formData, password },
+        {
+          headers: {
+            "content-Type": "application/json",
+          },
+        }
+      );
+      setIsLoading(false);
+      console.log(response.data);
+    } catch (err) {
+      setIsLoading(false);
+      // setError(err.response.data)
+      // console.log(error)
+      console.log(err);
+      console.log(err.response);
+      console.log(err.response.data);
+      toast.error(err.response.data.detail);
+      console.log(err.response.data.detail);
+    }
+
+    // console.log("Signup data:", formData);
   };
 
   return (
     <div className="min-h-screen bg-red-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-2xl lg:text-3xl font-extrabold text-gray-900">
-          Registered As <span className="text-red-600" > "HERO" </span>
+          Registered As <span className="text-red-600"> "HERO" </span>
         </h2>
       </div>
 
@@ -149,6 +206,11 @@ const Signup = () => {
                 required
                 value={formData.mobile}
                 onChange={handleChange}
+                onBlur={(e) => {
+                  if (!/^\d{11}$/.test(e.target.value)) {
+                    toast.error("Mobile number must be 11 digits");
+                  }
+                }}
               />
 
               {/* department */}
@@ -187,8 +249,10 @@ const Signup = () => {
                         zIndex: 20,
                       }),
                     }}
+                    required
                     isClearable
                     className="w-full shadow-sm"
+                    placeholder="Select Department..."
                   />
                 </div>
               </div>
@@ -243,6 +307,7 @@ const Signup = () => {
                     }}
                     className="w-full shadow-sm"
                     isClearable
+                    required
                     placeholder="Select Gender..."
                   />
                 </div>
@@ -288,11 +353,13 @@ const Signup = () => {
                     classNamePrefix="react-select"
                     isClearable
                     isSearchable
+                    required
+                    placeholder="Select District..."
                   />
                 </div>
               </div>
 
-              {/* Blood Type */}
+              {/* Blood Group */}
               <div>
                 <label
                   htmlFor="blood_group"
@@ -324,11 +391,17 @@ const Signup = () => {
                         ...provided,
                         paddingLeft: "2rem",
                       }),
+                      menu: (provided) => ({
+                        ...provided,
+                        zIndex: 20,
+                      }),
                     }}
                     className="w-full shadow-sm"
                     classNamePrefix="react-select"
                     isSearchable
                     isClearable
+                    required
+                    placeholder="Select Blood Group..."
                   />
                 </div>
               </div>
@@ -336,7 +409,7 @@ const Signup = () => {
               {/* session */}
               <div>
                 <label
-                  htmlFor="session"
+                  htmlFor="academic_year"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Session
@@ -347,16 +420,18 @@ const Signup = () => {
                     size={18}
                   />
                   <Select
-                    id="session"
-                    name="session"
+                    id="academic_year"
+                    name="academic_year"
                     options={session_options}
                     value={session_options.find(
-                      (option) => option.value === formData.session
+                      (option) => option.value === formData.academic_year
                     )}
                     onChange={(selectedOption) =>
                       setFormData({
                         ...formData,
-                        session: selectedOption ? selectedOption.value : "",
+                        academic_year: selectedOption
+                          ? selectedOption.value
+                          : "",
                       })
                     }
                     styles={{
@@ -373,6 +448,8 @@ const Signup = () => {
                     classNamePrefix="react-select"
                     isClearable
                     isSearchable
+                    required
+                    placeholder="Select Session..."
                   />
                 </div>
               </div>
@@ -437,7 +514,7 @@ const Signup = () => {
                     type={showConfirmPassword ? "text" : "password"}
                     autoComplete="new-password"
                     required
-                    value={formData.confirmPassword}
+                    value={confirmPassword}
                     onChange={handleChange}
                     className="appearance-none block w-full pl-10 px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"
                   />
@@ -455,10 +532,21 @@ const Signup = () => {
                 </div>
               </div>
             </div>
+            <div className="flex items-center justify-end">
+              <div className="text-sm">
+                <Link
+                  to="/login"
+                  className="font-medium underline text-blue-600 hover:text-red-500"
+                >
+                  Already Have an Account?
+                </Link>
+              </div>
+            </div>
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 
+  transform transition-transform duration-150 ease-in-out active:scale-95 "
               >
                 Sign up
               </button>
