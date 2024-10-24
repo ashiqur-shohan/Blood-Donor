@@ -32,7 +32,11 @@ const FilterSection = ({
   const handleFilterChange = (key, value) => {
     setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
   };
-
+  
+  const department_options = departments.map((dept) => ({
+    label: dept.name,
+    value: dept.code,
+  }));
   return (
     <div className="bg-white p-6 rounded-lg shadow-md mb-6">
       <h2 className="text-2xl font-bold mb-4 flex items-center text-red-600">
@@ -81,8 +85,8 @@ const FilterSection = ({
           >
             <option value="">All</option>
             {departments.map((dept) => (
-              <option key={dept} value={dept}>
-                {dept}
+              <option key={dept.code} value={dept.code}>
+                {dept.name} {/* Display the department name */}
               </option>
             ))}
           </select>
